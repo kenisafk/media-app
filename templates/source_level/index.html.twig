@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SourceLevel index{% endblock %}
+
+{% block body %}
+    <h1>SourceLevel index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for source_level in source_levels %}
+            <tr>
+                <td>{{ source_level.id }}</td>
+                <td>{{ source_level.name }}</td>
+                <td>
+                    <a href="{{ path('app_source_level_show', {'id': source_level.id}) }}">show</a>
+                    <a href="{{ path('app_source_level_edit', {'id': source_level.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_source_level_new') }}">Create new</a>
+{% endblock %}

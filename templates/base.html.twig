@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {% block stylesheets %}
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nabla&family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,118.6,220,531;1,6..12,118.6,220,531&display=swap" rel="stylesheet">
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+        
+
+        body {
+            font-family: "Nunito Sans", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: <weight>;
+            font-style: normal;
+            font-variation-settings:
+                "wdth" 100,
+                "YTLC" 500;
+        }
+
+        .appname {
+        font-family: "Nabla", system-ui;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+        font-variation-settings:
+            "EDPT" 100,
+            "EHLT" 12;
+        }
+        </style>
+
+        {% endblock %}
+
+        {% block javascripts %}
+        {% endblock %}
+    </head>
+    <body class="bg-black flex flex-col min-h-screen">
+        <!-- Navbar -->
+        <nav class="bg-black shadow-md sticky top-0 z-50">
+            <div class="container mx-auto px-6 py-3 flex justify-center items-center">
+                <h1 class="text-4xl appname">{{app_name}} <code class="text-gray-500 text-sm">{{app_version}}</code></h1>
+            </div>
+        </nav>
+
+
+        <!-- Main Content -->
+        <div class="container mx-auto flex-grow flex justify-center items-center py-6">
+            {% block body %}{% endblock %}
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-black border-t mt-6 py-3">
+            <div class="container mx-auto px-6 text-center text-gray-100">
+                <p>&copy; 2024 {{app_name}} {{app_version}}</p>
+            </div>
+        </footer>
+    </body>
+</html>

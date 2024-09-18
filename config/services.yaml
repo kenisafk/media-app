@@ -1,0 +1,98 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    locale: 'en'
+
+    site_urls: 
+        as: 'https://feeds.as.com/mrss-s/pages/as/site/as.com/section/futbol/portada/'
+        rtve: 'https://api2.rtve.es/rss/temas_noticias.xml'
+        esdiario: 'https://www.esdiario.com/rss/home.xml'
+        cope: 'https://www.cope.es/api/es/news/rss.xml'
+        antena3: 'https://www.antena3.com/noticias/rss/4013050.xml'
+        abc: 'https://www.abc.es/rss/2.0/portada/'
+        lasexta: 'https://www.lasexta.com/rss/351410.xml'
+        lavanguardia: 'https://www.lavanguardia.com/rss/home.xml'
+        elpais: 'https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada'
+        elperiodico: 'https://www.elperiodico.com/es/rss/rss_portada.xml'
+        eleconomista: 'https://www.eleconomista.es/rss/rss-seleccion-ee.php'
+        elmundo: 'https://rss.unidadeditorial.es/test_tecnologia/elmundo/allsections_todo_art.xml'
+        #elmundo: 'https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml'
+        marcausa: 'https://rss.unidadeditorial.es/test_tecnologia/marcausa/allsections_todo_art.xml'
+        marca: 'https://rss.unidadeditorial.es/test_tecnologia/marca/allsections_todo_art.xml'
+        expansion: 'https://rss.unidadeditorial.es/test_tecnologia/expansion/allsections_todo_art.xml'
+        #expansion: 'https://e00-expansion.uecdn.es/rss/portada.xml'
+        #periodistadigital: 'https://www.periodistadigital.com/feed/'
+        #libertaddigital: 'https://feeds2.feedburner.com/libertaddigital/portada'
+        #20minutos: 'https://www.20minutos.es/rss/'
+        hoy: 'https://www.hoy.es/rss/2.0/portada/'
+        elcorreo: 'https://www.elcorreo.com/rss/2.0/portada/'
+        eldiariomontanes: 'https://www.eldiariomontanes.es/rss/2.0/portada/'
+        okdiario: 'https://okdiario.com/feed'
+
+    # ATOM
+    #    https://rss.elconfidencial.com/espana/
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DataFixtures/'
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+
+    App\Controller\SourceController:
+    App\Controller\SourceLevelController:
+
+    App\Service\Interfaces\MessageServiceInterface:
+        class: App\Service\MessageService
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    App\Service\RssService:
+        arguments:
+            $siteUrls: '%site_urls%'
+
+    App\Service\RssSerializerService:   
+
+    App\Service\XmlReader:
+        public: true
+
+    App\Twig\Extension:
+        tags: ['twig.extension']
+when@dev:
+    services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+        App\DataFixtures\:
+            resource: '../src/DataFixtures/'
+            tags: [ 'doctrine.fixture.orm' ]
+
+when@test:
+    services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+            public: true
+
+        App\DataFixtures\:
+            resource: '../src/DataFixtures/'
+            tags: [ 'doctrine.fixture.orm' ]

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Document index{% endblock %}
+
+{% block body %}
+<script>
+      document.addEventListener('DOMContentLoaded', function () {
+            const gridItems = document.querySelectorAll('.grid-item');
+            gridItems.forEach(item => {
+                const randomSize = Math.floor(Math.random() * 2) + 1; // Random number between 1 and 4
+                item.style.gridColumn = `span ${randomSize}`;
+            });
+        });
+</script>
+    <div class="mt-4">
+        <p class="text-gray-600 mb-4">Total Documents: {{ documentCount }}</p>
+
+        <div class="flex flex-wrap gap-4 p-4">
+                {% for source in sources %}
+                    <span class="px-4 py-2 border border-gray-300 rounded bg-white text-gray-800">
+                        {{ source.name }}
+                    </span>
+                {% endfor %}
+            </div>
+        <!-- 3x3 Grid Layout --> 
+
+        <h2 class="text-xl font-bold mb-4">3x3 Grid Layout</h2>
+       <div class="grid grid-cols-3 gap-4 mb-8">
+    {% for document in documents %}
+        <div class="bg-gray-200 border border-gray-300 rounded-sm shadow-md p-4 grid-item">
+            <h3 class="text-lg font-semibold mb-2">
+                <a href="{{ path('app_document_show', {'id': document.id}) }}" target="_blank" class="text-gray-600 hover:underline">👁️‍🗨️ {{ document.title }}</a>
+            </h3>
+            <p class="text-gray-700 mb-2">{{ document.description|slice(0, 145) ~ (document.description|length > 45 ? '...' : '') }}</p>
+            <p class="text-gray-600 mb-2">{{ document.source }}</p>
+            <p class="text-gray-500 mb-2">{{ document.publishedAt ? document.publishedAt|human_readable_date : 'N/A' }}</p>
+            <p class="text-gray-600 mb-2">{{ document.category }}</p>
+        </div>
+    {% else %}
+        <p class="col-span-3 text-center text-gray-500">No records found</p>
+    {% endfor %}
+</div>
+
+
+
+        <!-- 2x3 Grid Layout -->
+        <h2 class="text-xl font-bold mb-4">2x3 Grid Layout</h2>
+        <div class="grid grid-cols-2 gap-4">
+            {% for document in documents %}
+                <div class="bg-white border border-gray-300 rounded-xl shadow-md p-4">
+                    <h3 class="text-lg font-semibold mb-2">
+                        <a href="{{ path('app_document_show', {'id': document.id}) }}" target="_blank" class="text-gray-600 hover:underline">👁️‍🗨️ {{ document.title }}</a>
+                    </h3>
+                    <p class="text-gray-700 mb-2">{{ document.description|slice(0, 145) ~ (document.description|length > 45 ? '...' : '') }}</p>
+                    <p class="text-gray-600 mb-2">{{ document.source }}</p>
+                    <p class="text-gray-500 mb-2">{{ document.publishedAt ? document.publishedAt|human_readable_date: 'N/A' }}</p>
+                    <p class="text-gray-600 mb-2">{{ document.category }}</p>
+                </div>
+            {% else %}
+                <p class="col-span-2 text-center text-gray-500">No records found</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+

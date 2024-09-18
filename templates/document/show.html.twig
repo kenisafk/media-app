@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ document.title }}{% endblock %}
+
+{% block body %}
+    <article class="bg-gray-200 max-w-4xl mx-auto p-8">
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold mb-4">🗞️ {{ document.title }}</h1>
+            <p class="text-gray-600">{{ document.publishedAt ? document.publishedAt|date('Y-m-d H:i:s') : '' }}</p>
+            <p class="text-sm text-gray-500">Source: {{ document.source }}</p>
+        </header>
+
+        <section class="prose max-w-none">
+            <p>{{ document.description }}</p>
+        </section>
+
+        <section class="mt-8">
+            <h2 class="text-xl font-semibold mb-2">🔵 Additional Information</h2>
+            <ul class="list-disc pl-6">
+                <li><strong>Link:</strong> <a href="{{ document.link }}" class="text-blue-500 hover:underline">{{ document.link }}</a></li>
+                <li><strong>Category:</strong> {{ document.category }}</li>
+            </ul>
+        </section>
+
+        <footer class="mt-8">
+            <a href="{{ path('app_document_index') }}" class="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Back to list</a>
+        </footer>
+    </article>
+
+    {{ include('document/_delete_form.html.twig') }}
+{% endblock %}
